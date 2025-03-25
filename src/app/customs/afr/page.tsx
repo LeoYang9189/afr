@@ -195,11 +195,13 @@ const ActionBar = () => {
 };
 
 const getStatusTag = (status: string) => {
-  const colorMap: Record<string, string> = {
-    '通过': 'green',
-    '未通过': 'red',
+  const statusMap: Record<string, { color: string; text: string }> = {
+    draft: { color: 'gray', text: '草稿' },
+    pending: { color: 'blue', text: '待审核' },
+    approved: { color: 'green', text: '已通过' },
+    rejected: { color: 'red', text: '已拒绝' }
   };
-  return <Tag color={colorMap[status]}>{status}</Tag>;
+  return statusMap[status] || { color: 'default', text: status };
 };
 
 const getCustomsStatusTag = (status: string) => {
@@ -288,6 +290,15 @@ const getRiskWarning = (warning: string) => {
   );
 };
 
+interface TableRecord {
+  id: string;
+  status: string;
+  hblNo: string;
+  mblNo: string;
+  carrier: string;
+  [key: string]: string;
+}
+
 const AfrPage = () => {
   const router = useRouter();
   const [pagination, setPagination] = useState({
@@ -324,6 +335,10 @@ const AfrPage = () => {
 
   const handlePageChange = (current: number) => {
     setPagination({ ...pagination, current });
+  };
+
+  const handleEdit = (record: TableRecord) => {
+    router.push(`/customs/afr/edit?id=${record.id}`);
   };
 
   const columns = [
@@ -471,27 +486,12 @@ const AfrPage = () => {
       dataIndex: 'operation',
       width: 200,
       fixed: 'right' as const,
-      render: (_: any, record: any) => (
-        <Space className="whitespace-nowrap">
+      render: (_: unknown, record: TableRecord) => (
+        <Space>
+          <Button type="text" onClick={() => handleEdit(record)}>编辑</Button>
           <Button type="text">查看</Button>
-          <Button 
-            type="text" 
-            onClick={() => router.push(`/customs/afr/edit?id=${record.id}`)}
-          >
-            编辑
-          </Button>
-          <Dropdown
-            position="bottom"
-            droplist={
-              <Menu>
-                <Menu.Item key="export">导出凭证</Menu.Item>
-                <Menu.Item key="delete">发送删单</Menu.Item>
-                <Menu.Item key="copy">复制数据</Menu.Item>
-              </Menu>
-            }
-          >
-            <Button type="text" icon={<IconMore />}>更多</Button>
-          </Dropdown>
+          <Button type="text">复制</Button>
+          <Button type="text">删除</Button>
         </Space>
       ),
     }

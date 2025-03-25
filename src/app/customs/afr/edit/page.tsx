@@ -4,7 +4,7 @@ import { Card, Form, Input, Select, Space, Button, Checkbox } from '@arco-design
 import { IconPlus, IconDown, IconUp } from '@arco-design/web-react/icon';
 import styles from './page.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -72,9 +72,11 @@ const CARRIERS = [
 ] as const;
 
 // 为 Select.Option 定义类型
-interface OptionProps {
-  value: string;
-  children: React.ReactNode;
+interface SelectOptionType {
+  props: {
+    children: React.ReactNode;
+    value: string;
+  };
 }
 
 // 格式化输入内容的工具函数
@@ -115,30 +117,24 @@ const EditPage = () => {
   // 根据 id 判断是新增还是编辑模式
   const isEdit = !!id;
 
-  useEffect(() => {
-    if (isEdit) {
-      // 编辑模式：获取详情数据
-      fetchAfrDetail();
-    } else {
-      // 新增模式：设置默认值
-      form.setFieldsValue({
-        hblNo: 'J76N',
-        transportMode: 'PortToPort-港到港运输',
-      });
-    }
-  }, [isEdit]);
-
-  // 获取 AFR 详情数据
-  const fetchAfrDetail = async () => {
+  // 获取 AFR 详情
+  const fetchAfrDetail = useCallback(async () => {
+    if (!id) return;
     try {
-      // TODO: 调用获取详情 API
       const response = await fetch(`/api/afr/${id}`);
       const data = await response.json();
       form.setFieldsValue(data);
     } catch (error) {
-      console.error('获取详情失败：', error);
+      console.error('获取AFR详情失败:', error);
     }
-  };
+  }, [id, form]);
+
+  // 初始化数据
+  useEffect(() => {
+    if (id) {
+      fetchAfrDetail();
+    }
+  }, [id, fetchAfrDetail]);
 
   // 处理收货人信息变化
   const handleConsigneeChange = (value: any, values: Record<string, any>) => {
@@ -169,7 +165,6 @@ const EditPage = () => {
   const handleHblInputChange = (value: string) => {
     const formatted = formatHblInput(value);
     setHblInputCount(formatted.length);
-    // 更新表单中的值
     form.setFieldValue('hblInput', formatted);
   };
 
@@ -182,15 +177,10 @@ const EditPage = () => {
     const start = input.selectionStart || 0;
     const end = input.selectionEnd || 0;
     
-    // 获取当前值
     const currentValue = form.getFieldValue('hblInput') || '';
-    
-    // 计算新值
     const newValue = currentValue.slice(0, start) + formatted + currentValue.slice(end);
-    // 再次格式化整个值以确保总长度不超过限制
     const finalValue = formatHblInput(newValue);
     
-    // 更新表单值和计数器
     form.setFieldValue('hblInput', finalValue);
     setHblInputCount(finalValue.length);
   };
@@ -290,7 +280,7 @@ const EditPage = () => {
                   placeholder="请选择"
                   allowClear
                   showSearch
-                  filterOption={(inputValue, option: any) => {
+                  filterOption={(inputValue: string, option: SelectOptionType) => {
                     if (!option?.props?.children) return false;
                     return String(option.props.children)
                       .toLowerCase()
