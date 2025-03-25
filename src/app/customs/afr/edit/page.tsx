@@ -79,6 +79,12 @@ interface SelectOptionType {
   };
 }
 
+// 为 Form.Item 的 onChange 定义类型
+interface FormItemChangeProps {
+  value: string | undefined;
+  values: FormValues;
+}
+
 // 格式化输入内容的工具函数
 const formatHblInput = (value: string) => {
   // 移除全角字符，转换为半角
@@ -90,6 +96,21 @@ const formatHblInput = (value: string) => {
   // 限制长度为16个字符
   return formatted.slice(0, 16);
 };
+
+// 定义表单值的类型
+interface FormValues {
+  consignee?: string;
+  consigneeCountry?: string;
+  consigneeCity?: string;
+  consigneePhone?: string;
+  consigneeAddress?: string;
+  notifyParty?: string;
+  notifyPartyCountry?: string;
+  notifyPartyCity?: string;
+  notifyPartyPhone?: string;
+  notifyPartyAddress?: string;
+  [key: string]: string | undefined;
+}
 
 const EditPage = () => {
   const [form] = Form.useForm();
@@ -137,7 +158,7 @@ const EditPage = () => {
   }, [id, fetchAfrDetail]);
 
   // 处理收货人信息变化
-  const handleConsigneeChange = (value: any, values: Record<string, any>) => {
+  const handleConsigneeChange = (value: string | undefined, values: FormValues) => {
     if (!copyToNotify) return;
 
     const fieldMap = {
@@ -146,9 +167,9 @@ const EditPage = () => {
       consigneeCity: 'notifyPartyCity',
       consigneePhone: 'notifyPartyPhone',
       consigneeAddress: 'notifyPartyAddress'
-    };
+    } as const;
 
-    const updates: Record<string, any> = {};
+    const updates: Partial<FormValues> = {};
     Object.entries(values).forEach(([key, value]) => {
       const notifyKey = fieldMap[key as keyof typeof fieldMap];
       if (notifyKey && value !== undefined) {
@@ -280,11 +301,9 @@ const EditPage = () => {
                   placeholder="请选择"
                   allowClear
                   showSearch
-                  filterOption={(inputValue: string, option: SelectOptionType) => {
-                    if (!option?.props?.children) return false;
-                    return String(option.props.children)
-                      .toLowerCase()
-                      .indexOf(inputValue.toLowerCase()) >= 0;
+                  filterOption={(inputValue, option) => {
+                    const optionValue = option?.props?.children?.toString() || '';
+                    return optionValue.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
                   }}
                 >
                   {CARRIERS.map(carrier => (

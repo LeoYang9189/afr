@@ -2,14 +2,10 @@
 
 import { Layout } from '@arco-design/web-react';
 import SideMenu from '@/components/SideMenu';
-import styles from './page.module.css';
-import { useRouter } from 'next/navigation';
 
 const { Sider, Content } = Layout;
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <Layout className="h-screen">
       <Sider width={200} className="bg-[#f7f8fa]">

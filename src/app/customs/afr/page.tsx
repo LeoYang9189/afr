@@ -194,16 +194,6 @@ const ActionBar = () => {
   );
 };
 
-const getStatusTag = (status: string) => {
-  const statusMap: Record<string, { color: string; text: string }> = {
-    draft: { color: 'gray', text: '草稿' },
-    pending: { color: 'blue', text: '待审核' },
-    approved: { color: 'green', text: '已通过' },
-    rejected: { color: 'red', text: '已拒绝' }
-  };
-  return statusMap[status] || { color: 'default', text: status };
-};
-
 const getCustomsStatusTag = (status: string) => {
   const colorMap: Record<string, { color: string, label: string }> = {
     'ORIGINAL_WAITING': { color: 'orange', label: '原始等待回执' },
@@ -291,12 +281,27 @@ const getRiskWarning = (warning: string) => {
 };
 
 interface TableRecord {
+  key: number;
   id: string;
-  status: string;
-  hblNo: string;
-  mblNo: string;
+  nvocc: string;
+  hbl: string;
+  mbl: string;
   carrier: string;
-  [key: string]: string;
+  draftStatus: string;
+  submitStatus: string;
+  customsStatus: string;
+  matchStatus: string;
+  riskWarning: string;
+  vesselName: string;
+  voyage: string;
+  loadingPort: string;
+  dischargePort: string;
+  destinationPort: string;
+  creator: string;
+  createTime: string;
+  lastEditor: string;
+  lastEditTime: string;
+  remarks: string;
 }
 
 const AfrPage = () => {
