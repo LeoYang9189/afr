@@ -4,7 +4,7 @@ import { Card, Form, Input, Select, Space, Button, Checkbox } from '@arco-design
 import { IconPlus, IconDown, IconUp } from '@arco-design/web-react/icon';
 import styles from './page.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, Suspense } from 'react';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -109,7 +109,7 @@ interface FormValues {
   [key: string]: string | undefined;
 }
 
-const EditPage = () => {
+const EditPageContent = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -535,6 +535,14 @@ const EditPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const EditPage = () => {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <EditPageContent />
+    </Suspense>
   );
 };
 
