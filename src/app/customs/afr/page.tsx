@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag, Dropdown, Menu } from '@arco-design/web-react';
-import { IconDown, IconUp, IconSettings, IconExclamation, IconMore } from '@arco-design/web-react/icon';
+import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag } from '@arco-design/web-react';
+import { IconDown, IconUp, IconSettings, IconExclamation } from '@arco-design/web-react/icon';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 

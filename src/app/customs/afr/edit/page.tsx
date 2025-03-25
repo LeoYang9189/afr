@@ -78,7 +78,9 @@ interface OptionProps {
 }
 
 // 为 Form 组件的 onChange 事件定义类型
-type FormChangeHandler = (value: Record<string, any>, values: Record<string, any>) => void;
+interface FormChangeValues {
+  [key: string]: string | number | boolean | undefined;
+}
 
 // 格式化输入内容的工具函数
 const formatHblInput = (value: string) => {
@@ -250,7 +252,7 @@ const EditPage = () => {
       <Form 
         form={form} 
         layout="vertical"
-        onChange={(value, values) => {
+        onChange={(value: FormChangeValues, values: FormChangeValues) => {
           if (typeof value === 'string') {
             handleConsigneeChange(value, values as FormValues);
           }
