@@ -71,19 +71,14 @@ const CARRIERS = [
   { label: 'SOF | 顺发 | 43LG', value: '43LG' }
 ] as const;
 
-// 为 Select.Option 定义类型
-interface SelectOptionType {
-  props: {
-    children: React.ReactNode;
-    value: string;
-  };
+// 为 Select.Option 的 props 定义类型
+interface OptionProps {
+  children: React.ReactNode;
+  value: string;
 }
 
-// 为 Form.Item 的 onChange 定义类型
-interface FormItemChangeProps {
-  value: string | undefined;
-  values: FormValues;
-}
+// 为 Form 组件的 onChange 事件定义类型
+type FormChangeHandler = (value: Record<string, any>, values: Record<string, any>) => void;
 
 // 格式化输入内容的工具函数
 const formatHblInput = (value: string) => {
@@ -255,7 +250,11 @@ const EditPage = () => {
       <Form 
         form={form} 
         layout="vertical"
-        onChange={handleConsigneeChange}
+        onChange={(value, values) => {
+          if (typeof value === 'string') {
+            handleConsigneeChange(value, values as FormValues);
+          }
+        }}
       >
         {/* 基础信息 */}
         <Card className={styles.formCard}>
@@ -302,7 +301,7 @@ const EditPage = () => {
                   allowClear
                   showSearch
                   filterOption={(inputValue, option) => {
-                    const optionValue = option?.props?.children?.toString() || '';
+                    const optionValue = (option?.props as OptionProps)?.children?.toString() || '';
                     return optionValue.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
                   }}
                 >

@@ -326,7 +326,7 @@ const AfrPage = () => {
   };
 
   // 添加通用的单元格渲染函数
-  const renderCell = (value: any) => {
+  const renderCell = (value: string | number) => {
     return <span className="whitespace-nowrap">{value}</span>;
   };
 
