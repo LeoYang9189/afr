@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  font-size: 14px;
+  line-height: 1.5715;
+  color: rgb(var(--foreground-rgb));
+}
+
+/* Arco Design 字体大小规范 */
+.arco-btn {
+  font-size: 14px;
+}
+
+.arco-input {
+  font-size: 14px;
+}
+
+.arco-table {
+  font-size: 14px;
+}
+
+.arco-menu {
+  font-size: 14px;
+}
+
+.arco-card {
+  font-size: 14px;
+}
+
+/* 标签文字样式 */
+.label-text {
+  font-size: 14px;
+  color: #1D2129;
+  white-space: nowrap;
+}
+
+/* 页面标题 */
+.page-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1D2129;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.page-title + .text-sm {
+  margin-left: 8px;
+  color: #86909C;
+}
+
+.page-title + .text-sm a {
+  margin-left: 4px;
+}
+
+/* 搜索区域样式 */
+.search-form {
+  background-color: #fff;
+  padding: 16px 24px;
+  border-radius: 4px;
+}
+
+.search-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-form-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.search-form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-form-item .label-text {
+  color: #1D2129;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* 输入控件样式 */
+.search-form-item .arco-input-wrapper,
+.search-form-item .arco-select,
+.search-form-item .arco-picker {
+  width: 100%;
+}
+
+.search-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-right: 24px;
+}
+
+/* 展开/收起动画 */
+.search-form-expanded,
+.search-form-collapsed {
+  transition: all 0.3s ease;
+}
+
+/* 日期选择器样式调整 */
+.arco-picker-range {
+  width: 100% !important;
+}
