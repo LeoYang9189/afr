@@ -407,16 +407,16 @@ const AfrPage = () => {
     setPagination({ ...pagination, current });
   };
 
-  const handleEdit = (record: TableRecord) => {
-    router.push(`/customs/afr/edit?id=${record.id}`);
+  const handleEdit = (index: number) => {
+    router.push(`/customs/afr/edit?id=${index}`);
   };
 
   const handleView = (record: TableRecord) => {
     // Implementation of handleView function
   };
 
-  const handleDeleteDraft = (record: TableRecord) => {
-    // Implementation of handleDeleteDraft function
+  const handleDelete = (index: number) => {
+    // Implementation of handleDelete function
   };
 
   const handleSendDelete = (record: TableRecord) => {
@@ -574,29 +574,25 @@ const AfrPage = () => {
     {
       title: '操作',
       dataIndex: 'operation',
-      width: 200,
-      fixed: 'right' as const,
-      render: (_: unknown, record: TableRecord) => (
-        <Space>
-          <Button type="text" onClick={() => handleView(record)}>查看</Button>
-          <Button type="text" onClick={() => handleEdit(record)}>编辑</Button>
-          <Dropdown
-            droplist={
-              <Menu>
-                <Menu.Item key="deleteDraft" onClick={() => handleDeleteDraft(record)}>删除草稿</Menu.Item>
-                <Menu.Item key="sendDelete" onClick={() => handleSendDelete(record)}>发送删单</Menu.Item>
-                <Menu.Item key="exportCert" onClick={() => handleExportCert(record)}>导出凭证</Menu.Item>
-                <Menu.Item key="copyData" onClick={() => handleCopyData(record)}>复制数据</Menu.Item>
-              </Menu>
-            }
-            position="br"
+      width: 100,
+      render: (_: string, _record: any, index: number) => (
+        <div className={styles.tableButtonGroup}>
+          <Button
+            type="text"
+            size="small"
+            onClick={() => handleEdit(index)}
           >
-            <Button type="text">
-              更多
-              <IconDown />
-            </Button>
-          </Dropdown>
-        </Space>
+            编辑
+          </Button>
+          <Button
+            type="text"
+            size="small"
+            status="danger"
+            onClick={() => handleDelete(index)}
+          >
+            删除
+          </Button>
+        </div>
       ),
     }
   ];
