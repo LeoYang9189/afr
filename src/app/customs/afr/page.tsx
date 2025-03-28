@@ -1,9 +1,11 @@
 "use client";
 
-import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag } from '@arco-design/web-react';
-import { IconDown, IconUp, IconSettings, IconExclamation } from '@arco-design/web-react/icon';
+import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag, Dropdown, Menu, Modal } from '@arco-design/web-react';
+import { IconDown, IconUp, IconSettings, IconExclamation, IconUpload } from '@arco-design/web-react/icon';
+import { Upload } from '@arco-design/web-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from './page.module.css';
 
 const SearchBar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -165,32 +167,95 @@ const SearchBar = () => {
 
 const ActionBar = () => {
   const router = useRouter();
+  const [aiModalVisible, setAiModalVisible] = useState(false);
 
   // 跳转到新增页面
   const handleAdd = () => {
     router.push('/customs/afr/edit');
   };
 
+  // 处理 AI 识别
+  const handleAiRecognition = () => {
+    setAiModalVisible(true);
+  };
+
   return (
-    <div className="px-6 pb-6 flex items-center">
-      <div className="flex-1 flex justify-between items-center">
-        <Space size="large">
-          <Button type="primary" size="large" onClick={handleAdd}>
-            新建AFR
-          </Button>
-          <Button size="large">模板导入</Button>
-        </Space>
-        <Space size="large" className="ml-24">
-          <Button type="text" icon={<IconSettings />}>
-            自定义表格
-          </Button>
-          <Space size="small">
-            <span className="text-[#4E5969]">只看自己</span>
-            <Switch size="small" />
+    <>
+      <div className="px-6 pb-6 flex items-center">
+        <div className="flex-1 flex justify-between items-center">
+          <Space size="large">
+            <Button type="primary" size="large" onClick={handleAdd}>
+              新建AFR
+            </Button>
+            <Button size="large">模板导入</Button>
+            <Button size="large" onClick={handleAiRecognition}>AI识别</Button>
           </Space>
-        </Space>
+          <Space size="large" className="ml-24">
+            <Button type="text" icon={<IconSettings />}>
+              自定义表格
+            </Button>
+            <Space size="small">
+              <span className="text-[#4E5969]">只看自己</span>
+              <Switch size="small" />
+            </Space>
+          </Space>
+        </div>
       </div>
-    </div>
+
+      <Modal
+        title="AI单证识别"
+        visible={aiModalVisible}
+        onCancel={() => setAiModalVisible(false)}
+        footer={null}
+        className={styles.aiModal}
+      >
+        <div>
+          <Upload
+            drag
+            accept="image/*, .pdf"
+            multiple={false}
+            showUploadList={false}
+          >
+            <div className={styles.aiUploadArea}>
+              <div className={styles.aiUploadContent}>
+                <IconUpload className={styles.aiUploadIcon} />
+                <div className={styles.aiUploadText}>
+                  拖到此处，或 <span className={styles.aiUploadLink}>点击上传</span>
+                </div>
+                <div className={styles.aiUploadDesc}>
+                  支持识别提单、提单模板、托书等多种文件！
+                </div>
+                <div className={styles.aiUploadLimit}>
+                  每次只能上传一个文件，且不超过4M
+                </div>
+              </div>
+            </div>
+          </Upload>
+          <div className={styles.aiWarning}>
+            <IconExclamation className={styles.aiWarningIcon} />
+            <span className={styles.aiWarningText}>
+              AI识别可能存在误差，发送前请仔细核对
+            </span>
+          </div>
+          <div style={{ marginTop: 16 }}>
+            <div className={styles.aiModalFooter}>
+              <Button 
+                type="secondary" 
+                onClick={() => setAiModalVisible(false)}
+              >
+                取消
+              </Button>
+              <Button 
+                type="primary" 
+                onClick={() => setAiModalVisible(false)}
+              >
+                开始识别
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };
 
@@ -346,6 +411,26 @@ const AfrPage = () => {
     router.push(`/customs/afr/edit?id=${record.id}`);
   };
 
+  const handleView = (record: TableRecord) => {
+    // Implementation of handleView function
+  };
+
+  const handleDeleteDraft = (record: TableRecord) => {
+    // Implementation of handleDeleteDraft function
+  };
+
+  const handleSendDelete = (record: TableRecord) => {
+    // Implementation of handleSendDelete function
+  };
+
+  const handleExportCert = (record: TableRecord) => {
+    // Implementation of handleExportCert function
+  };
+
+  const handleCopyData = (record: TableRecord) => {
+    // Implementation of handleCopyData function
+  };
+
   const columns = [
     {
       title: '',
@@ -493,10 +578,24 @@ const AfrPage = () => {
       fixed: 'right' as const,
       render: (_: unknown, record: TableRecord) => (
         <Space>
+          <Button type="text" onClick={() => handleView(record)}>查看</Button>
           <Button type="text" onClick={() => handleEdit(record)}>编辑</Button>
-          <Button type="text">查看</Button>
-          <Button type="text">复制</Button>
-          <Button type="text">删除</Button>
+          <Dropdown
+            droplist={
+              <Menu>
+                <Menu.Item key="deleteDraft" onClick={() => handleDeleteDraft(record)}>删除草稿</Menu.Item>
+                <Menu.Item key="sendDelete" onClick={() => handleSendDelete(record)}>发送删单</Menu.Item>
+                <Menu.Item key="exportCert" onClick={() => handleExportCert(record)}>导出凭证</Menu.Item>
+                <Menu.Item key="copyData" onClick={() => handleCopyData(record)}>复制数据</Menu.Item>
+              </Menu>
+            }
+            position="br"
+          >
+            <Button type="text">
+              更多
+              <IconDown />
+            </Button>
+          </Dropdown>
         </Space>
       ),
     }

@@ -36,17 +36,52 @@
 }
 
 .formSection {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.formSection .formItem {
+  flex: 0 0 calc(25% - 12px);
+  margin-bottom: 0;
+}
+
+.formSection .formItem.flex-1 {
+  flex: 1;
+}
+
+/* 唛头宽度为2倍 */
+.formSection .formItem:has([field*="mark"]) {
+  flex: 2 !important;
+  width: 66.66% !important;
+  max-width: 66.66% !important;
+}
+
+/* 品名宽度相应调整 */
+.formSection .formItem:has([field*="goodsName"]) {
+  flex: 1 !important;
+  width: 33.33% !important;
+  max-width: 33.33% !important;
 }
 
 .formItem {
-  margin-bottom: 0;
+  margin-bottom: 16px;
 }
 
-.formItem :global(.arco-form-item-wrapper) {
-  margin-bottom: 0;
+/* 调整危险品编号字段的宽度 */
+/* .formItem:has([field*="dangerousGoodsCode"]) {
+  width: 140px;
+}
+
+.formItem:has([field*="dangerousGoodsCode"]) :global(.arco-input-group) {
+  width: 100px;
+} */
+
+.formItem:has([field*="dangerousGoodsCode"]) :global(.arco-btn) {
+  padding: 0 4px;
+  min-width: auto;
 }
 
 .formItem :global(.arco-form-item-label-col) {
@@ -68,38 +103,40 @@
   width: 100%;
 }
 
+.formItem :global(.arco-textarea-wrapper) {
+  width: 100%;
+}
+
 .fullWidth {
   grid-column: 1 / -1;
 }
 
-.doubleWidth {
-  grid-column: span 2;
-}
-
 /* 标题型字段样式 */
 .titleField {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 500;
-  color: #1D2129;
-  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
-  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-1);
+  padding-bottom: 8px;
 }
 
-.titleField span {
+.titleField > span {
   position: relative;
-  z-index: 1;
+  display: inline-block;
+  padding-bottom: 8px;
 }
 
-.titleField::after {
+.titleField > span::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, #165DFF 0%, rgba(22, 93, 255, 0.3) 50%, rgba(22, 93, 255, 0) 100%);
+  height: 2px;
+  background: linear-gradient(90deg, #165DFF 0%, rgba(22, 93, 255, 0.3) 100%);
 }
 
 /* 通知人复制选项 */
@@ -186,14 +223,43 @@
 }
 
 /* MBL No. 字段样式 */
+.mblPrefix {
+  width: 96px !important;
+  min-width: 96px !important;
+  background-color: var(--color-fill-2) !important;
+  border-radius: 2px !important;
+  font-family: monospace !important;
+  font-size: 14px !important;
+}
+
 .mblInput {
-  width: 240px;
+  width: calc(100% - 100px) !important; /* 96px + 4px间距 */
+  margin-left: 4px !important;
 }
 
 .mblInput :global(.arco-input-inner-wrapper) {
-  width: 100%;
+  width: 100% !important;
   background-color: var(--color-fill-2);
   border-radius: 2px;
+  font-family: monospace;
+}
+
+.mblInput :global(.arco-input) {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.errorInput {
+  border-color: var(--color-danger-light-4) !important;
+}
+
+.errorInput:hover {
+  border-color: var(--color-danger-light-3) !important;
+}
+
+.errorInput:focus {
+  border-color: var(--color-danger-light-2) !important;
+  box-shadow: 0 0 0 2px var(--color-danger-light-1) !important;
 }
 
 /* 船公司字段样式 */
@@ -209,7 +275,7 @@
 
 /* 运输方式字段样式 */
 .transportSelect {
-  width: 200px;
+  width: 100%;
 }
 
 .transportSelect :global(.arco-select-view) {
@@ -218,9 +284,9 @@
   border-radius: 2px;
 }
 
-/* 船名字段样式 */
+/* 船名和航次字段样式 */
 .vesselSelect {
-  width: 180px;
+  width: 100% !important;
 }
 
 .vesselSelect :global(.arco-select-view) {
@@ -229,13 +295,12 @@
   border-radius: 2px;
 }
 
-/* 航次字段样式 */
 .voyageInput {
-  width: 120px;
+  width: 100% !important;
 }
 
 .voyageInput :global(.arco-input-inner-wrapper) {
-  width: 100%;
+  width: 100% !important;
   background-color: var(--color-fill-2);
   border-radius: 2px;
 }
@@ -270,4 +335,125 @@
   width: 100%;
   background-color: var(--color-fill-2);
   border-radius: 2px;
+}
+
+.input {
+  width: 100% !important;
+}
+
+/* 收发通信息布局样式 */
+.contactContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contactRow {
+  display: flex;
+  gap: 24px;
+}
+
+.contactColumn {
+  flex: 1;
+  width: 50%;
+}
+
+.notifyPartySection {
+  margin-top: 24px;
+  width: 50%;
+}
+
+/* 可调整大小的文本框 */
+.resizableInput :global(.arco-input) {
+  resize: vertical;
+  min-height: 32px;
+  height: auto;
+}
+
+.resizableInput :global(.arco-textarea) {
+  resize: vertical;
+  min-height: 32px;
+  height: auto;
+  width: 100%;
+}
+
+.resizableInput :global(.arco-textarea-word-limit) {
+  text-align: right;
+  color: var(--color-text-3);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.totalInfo {
+  font-size: 14px;
+  color: #1D2129;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  border-right: 1px solid #E5E6E8;
+}
+
+.containerTabs {
+  margin-top: 16px;
+  position: relative;
+}
+
+.containerTabs :global(.arco-tabs-header-nav) {
+  margin-bottom: 16px;
+  padding-right: 0;
+}
+
+.containerTabs :global(.arco-tabs-header-wrapper) {
+  position: relative;
+}
+
+.containerTabs :global(.arco-tabs-content) {
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.containerTabs :global(.arco-tabs-extra) {
+  position: static;
+  padding-left: 0;
+  margin-left: 8px;
+}
+
+.containerTabs :global(.arco-tabs-header-nav-list) {
+  flex-wrap: wrap;
+}
+
+.addTabButton {
+  height: 32px;
+  padding: 0 8px;
+  color: var(--color-text-2);
+}
+
+.addTabButton:hover {
+  color: var(--color-text-1);
+}
+
+.addDangerousCode {
+  color: var(--color-text-2);
+  padding: 4px 8px;
+  width: fit-content;
+}
+
+.addDangerousCode:hover {
+  color: var(--color-text-1);
+  background-color: var(--color-fill-2);
+}
+
+.deleteIcon {
+  cursor: pointer;
+  color: var(--color-text-3);
+  font-size: 14px;
+  padding: 4px;
+  transition: all 0.2s;
+}
+
+.deleteIcon:hover {
+  color: var(--color-danger-6);
+  background-color: var(--color-danger-light-1);
+  border-radius: 4px;
 }

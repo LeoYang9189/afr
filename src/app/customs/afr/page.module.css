@@ -1,0 +1,148 @@
+/* AI识别弹窗样式 */
+.aiModal {
+  width: 580px !important;
+}
+
+.aiModal :global(.arco-modal-header) {
+  border-bottom: none;
+  padding: 16px 24px;
+}
+
+.aiModal :global(.arco-modal-title) {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1D2129;
+}
+
+.aiModal :global(.arco-modal-close-icon) {
+  top: 16px;
+  right: 16px;
+}
+
+.aiModal :global(.arco-modal-content) {
+  padding: 24px 0;
+}
+
+.aiModal :global(.arco-modal-footer) {
+  display: none;
+}
+
+.aiUploadArea {
+  background-color: #fff;
+  border: 1px dashed #C9CDD4;
+  border-radius: 4px;
+  padding: 40px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.aiUploadArea:hover {
+  border-color: #165DFF;
+  background-color: rgb(242, 243, 245);
+}
+
+.aiUploadIcon {
+  font-size: 48px;
+  color: #FF7D00;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.aiUploadContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.aiUploadText {
+  font-size: 14px;
+  color: #1D2129;
+  margin-bottom: 8px;
+  line-height: 1.5715;
+  text-align: center;
+}
+
+.aiUploadLink {
+  color: #FF7D00;
+  cursor: pointer;
+}
+
+.aiUploadDesc {
+  font-size: 13px;
+  color: #86909C;
+  margin-bottom: 4px;
+  line-height: 1.5715;
+  text-align: center;
+}
+
+.aiUploadLimit {
+  font-size: 12px;
+  color: #86909C;
+  margin-top: 8px;
+  line-height: 1.5715;
+  text-align: center;
+}
+
+.aiWarning {
+  margin-top: 16px;
+  padding: 8px 12px;
+  background-color: #FFF7E8;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aiWarningIcon {
+  color: #FF7D00;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.aiWarningText {
+  color: #86909C;
+  font-size: 12px;
+  line-height: 1.5715;
+}
+
+.aiModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+.aiModalFooter :global(.arco-btn) {
+  min-width: 80px;
+  height: 32px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.aiModalFooter :global(.arco-btn-secondary) {
+  color: #1D2129;
+  border-color: #E5E6E8;
+  background-color: #fff;
+}
+
+.aiModalFooter :global(.arco-btn-secondary):hover {
+  color: #165DFF;
+  border-color: #165DFF;
+  background-color: #fff;
+}
+
+.aiModalFooter :global(.arco-btn-primary) {
+  background-color: #165DFF;
+}
+
+.aiModalFooter :global(.arco-btn-primary):hover {
+  background-color: #306FFF;
+} 
