@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag, Dropdown, Menu, Modal } from '@arco-design/web-react';
+import { Card, Input, Button, Table, Space, Select, Divider, Switch, DatePicker, Checkbox, Tag, Modal } from '@arco-design/web-react';
 import { IconDown, IconUp, IconSettings, IconExclamation, IconUpload } from '@arco-design/web-react/icon';
 import { Upload } from '@arco-design/web-react';
 import { useState } from 'react';
@@ -411,10 +411,6 @@ const AfrPage = () => {
     router.push(`/customs/afr/edit?id=${index}`);
   };
 
-  const handleView = (record: TableRecord) => {
-    // Implementation of handleView function
-  };
-
   const handleDelete = (index: number) => {
     // Implementation of handleDelete function
   };
@@ -575,7 +571,7 @@ const AfrPage = () => {
       title: '操作',
       dataIndex: 'operation',
       width: 100,
-      render: (_: string, _record: any, index: number) => (
+      render: (_: string, _record: Record<string, unknown>, index: number) => (
         <div className={styles.tableButtonGroup}>
           <Button
             type="text"
